@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,17 +15,15 @@
   :root{
     --bg: #050607;
     --panel: rgba(12, 14, 16, .72);
-    --panel2: rgba(8, 10, 12, .65);
     --line: rgba(255,255,255,.08);
     --line2: rgba(255,255,255,.12);
     --cyan: rgba(34, 211, 238, 1);
-    --cyanSoft: rgba(34, 211, 238, .35);
     --cyanGlow: rgba(34, 211, 238, .18);
     --textDim: rgba(255,255,255,.72);
     --textDim2: rgba(255,255,255,.55);
   }
 
-  body{ background: var(--bg); color: #fff; }
+  body{ background: var(--bg); color:#fff; }
 
   /* Blueprint grid overlay */
   .overlay-grid{
@@ -36,7 +35,7 @@
     opacity: .9;
   }
 
-  /* Extra micro-grid for premium feel */
+  /* Micro-grid for premium feel */
   .overlay-micro{
     position: fixed; inset: 0; pointer-events:none; z-index: 0;
     background-image:
@@ -54,12 +53,40 @@
       radial-gradient(circle at 18% 18%, rgba(34,211,238,0.20), transparent 42%),
       radial-gradient(circle at 82% 26%, rgba(34,211,238,0.14), transparent 45%),
       radial-gradient(circle at 50% 88%, rgba(34,211,238,0.10), transparent 55%);
-    filter: blur(0px);
+  }
+
+  /* ====== Animated cyan scanning line (global) ====== */
+  .scanline{
+    position: fixed;
+    left: 0; right: 0;
+    height: 160px;
+    pointer-events: none;
+    z-index: 1; /* above overlays, below content */
+    background:
+      linear-gradient(to bottom,
+        transparent 0%,
+        rgba(34,211,238,0.00) 25%,
+        rgba(34,211,238,0.10) 45%,
+        rgba(34,211,238,0.26) 50%,
+        rgba(34,211,238,0.10) 55%,
+        rgba(34,211,238,0.00) 75%,
+        transparent 100%);
+    filter: blur(0.2px);
+    mix-blend-mode: screen;
+    opacity: .55;
+    animation: scan 7.5s linear infinite;
+  }
+  @keyframes scan{
+    0% { top: -200px; opacity: .0; }
+    7% { opacity: .55; }
+    50% { opacity: .45; }
+    93% { opacity: .55; }
+    100% { top: calc(100vh + 200px); opacity: .0; }
   }
 
   /* Subtle grain */
   .grain:before{
-    content:""; position:fixed; inset:0; pointer-events:none; z-index: 1;
+    content:""; position:fixed; inset:0; pointer-events:none; z-index: 2;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.10'/%3E%3C/svg%3E");
     mix-blend-mode: overlay;
     opacity:.35;
@@ -73,10 +100,7 @@
   }
 
   /* Cyan edge accent */
-  .cyan-edge{
-    position: relative;
-    border: 1px solid var(--line);
-  }
+  .cyan-edge{ position: relative; border: 1px solid var(--line); }
   .cyan-edge:before{
     content:"";
     position:absolute; inset:-1px;
@@ -86,7 +110,7 @@
     opacity:.55;
   }
 
-  /* Hover lift + cyan border */
+  /* Hover lift */
   .card{
     transition: transform .22s ease, border-color .22s ease, background .22s ease;
   }
@@ -119,7 +143,7 @@
     background: rgba(34,211,238,1);
     color: #001012;
     border: 1px solid rgba(34,211,238,1);
-    font-weight: 700;
+    font-weight: 800;
     transition: all .2s ease;
   }
   .btn-cyan:hover{ background: rgba(34,211,238,.88); }
@@ -128,7 +152,7 @@
   .reveal{ opacity:0; transform: translateY(14px); }
   .reveal.show{ opacity:1; transform: translateY(0); transition: all .75s ease; }
 
-  /* Small badge */
+  /* Badge */
   .badge{
     border: 1px solid rgba(34,211,238,.22);
     background: rgba(34,211,238,.08);
@@ -138,14 +162,108 @@
   /* Divider */
   .divider{ height:1px; background: linear-gradient(90deg, transparent, rgba(34,211,238,.25), transparent); }
 
+  /* ====== Loading Intro ====== */
+  #loader{
+    position: fixed; inset: 0;
+    display: grid; place-items: center;
+    background: radial-gradient(circle at 50% 20%, rgba(34,211,238,.12), transparent 55%),
+                rgba(0,0,0,.92);
+    z-index: 9999;
+    transition: opacity .5s ease, visibility .5s ease;
+  }
+  #loader.hide{
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .loader-card{
+    width: min(520px, calc(100vw - 40px));
+    border-radius: 18px;
+    background: rgba(10,12,14,.72);
+    border: 1px solid rgba(255,255,255,.10);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 18px 70px rgba(0,0,0,.55);
+    overflow: hidden;
+    position: relative;
+  }
+  .loader-topline{
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(34,211,238,.9), transparent);
+    opacity: .6;
+  }
+  .loader-shine{
+    position:absolute; inset:0;
+    pointer-events:none;
+    background: linear-gradient(120deg, transparent 0%, rgba(34,211,238,.10) 50%, transparent 100%);
+    transform: translateX(-120%);
+    animation: shine 1.8s linear infinite;
+    opacity: .65;
+  }
+  @keyframes shine{
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(120%); }
+  }
+
+  .progress{
+    height: 10px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .bar{
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, rgba(34,211,238,.35), rgba(34,211,238,1));
+    border-radius: 999px;
+    box-shadow: 0 0 24px rgba(34,211,238,.22);
+    transition: width .15s ease;
+  }
+
+  .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
 </style>
 </head>
 
 <body class="grain">
-  <!-- overlays -->
+  <!-- Loading Intro -->
+  <div id="loader" aria-label="Loading">
+    <div class="loader-card">
+      <div class="loader-topline"></div>
+      <div class="loader-shine"></div>
+
+      <div class="p-7 md:p-8">
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-xl bg-white/5 border border-white/10 grid place-items-center">
+            <span class="text-cyan-300">⌁</span>
+          </div>
+          <div class="leading-tight">
+            <p class="text-sm text-white font-semibold tracking-wide">YOUR NAME</p>
+            <p class="text-xs" style="color:var(--textDim2)">MEP Draftman • Black + Cyan Engineering Theme</p>
+          </div>
+        </div>
+
+        <p class="mt-6 text-sm" style="color:var(--textDim)">
+          Initializing layout grid… loading modules… verifying standards…
+        </p>
+
+        <div class="mt-5 progress">
+          <div id="bar" class="bar"></div>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between text-xs mono" style="color:var(--textDim2)">
+          <span id="stage">BOOT</span>
+          <span id="pct">0%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlays -->
   <div class="overlay-glow"></div>
   <div class="overlay-grid"></div>
   <div class="overlay-micro"></div>
+  <div class="scanline"></div>
 
   <!-- Top bar -->
   <header class="sticky top-0 z-50 bg-black/70 backdrop-blur border-b border-white/10">
@@ -155,7 +273,7 @@
           ⌁
         </span>
         <div class="leading-tight">
-          <p class="font-semibold tracking-wide">Mohamed Imran</p>
+          <p class="font-semibold tracking-wide">YOUR NAME</p>
           <p class="text-xs" style="color:var(--textDim2)">MEP Draftman • HVAC • Plumbing • Firefighting</p>
         </div>
       </a>
@@ -261,27 +379,21 @@
         <div class="glass p-6 rounded-2xl card">
           <p class="text-xs uppercase tracking-wide" style="color:var(--textDim2)">HVAC</p>
           <h3 class="mt-2 font-semibold text-lg">HVAC Shop Drawings</h3>
-          <p class="mt-2 text-sm" style="color:var(--textDim)">
-            Duct layout, diffusers, equipment, sections, schedules & annotations.
-          </p>
+          <p class="mt-2 text-sm" style="color:var(--textDim)">Duct layout, diffusers, equipment, sections, schedules & annotations.</p>
           <p class="mt-4 text-xs" style="color:var(--textDim2)">Output: DWG / PDF</p>
         </div>
 
         <div class="glass p-6 rounded-2xl card">
           <p class="text-xs uppercase tracking-wide" style="color:var(--textDim2)">Plumbing</p>
           <h3 class="mt-2 font-semibold text-lg">Plumbing & Drainage</h3>
-          <p class="mt-2 text-sm" style="color:var(--textDim)">
-            Water supply, drainage, risers, isometrics, legends & schedules.
-          </p>
+          <p class="mt-2 text-sm" style="color:var(--textDim)">Water supply, drainage, risers, isometrics, legends & schedules.</p>
           <p class="mt-4 text-xs" style="color:var(--textDim2)">Output: DWG / PDF</p>
         </div>
 
         <div class="glass p-6 rounded-2xl card">
           <p class="text-xs uppercase tracking-wide" style="color:var(--textDim2)">Fire</p>
           <h3 class="mt-2 font-semibold text-lg">Firefighting</h3>
-          <p class="mt-2 text-sm" style="color:var(--textDim)">
-            Sprinkler layout, hydrant system, piping details & schedules.
-          </p>
+          <p class="mt-2 text-sm" style="color:var(--textDim)">Sprinkler layout, hydrant system, piping details & schedules.</p>
           <p class="mt-4 text-xs" style="color:var(--textDim2)">Output: DWG / PDF</p>
         </div>
       </div>
@@ -298,12 +410,8 @@
 
     <!-- PROJECTS -->
     <section id="projects" class="reveal">
-      <div class="flex items-end justify-between gap-4">
-        <div>
-          <h2 class="text-3xl font-bold">Projects</h2>
-          <p class="mt-3" style="color:var(--textDim)">Show 3–6 real projects with PDF previews for trust.</p>
-        </div>
-      </div>
+      <h2 class="text-3xl font-bold">Projects</h2>
+      <p class="mt-3" style="color:var(--textDim)">Show 3–6 real projects with PDF previews for trust.</p>
 
       <div class="grid md:grid-cols-3 gap-7 mt-10">
         <div class="glass p-6 rounded-2xl card md:col-span-2">
@@ -312,14 +420,12 @@
           <p class="mt-2 text-sm" style="color:var(--textDim)">
             Coordinated HVAC + Plumbing layouts with legends, sections, schedules and revision control.
           </p>
-
           <div class="mt-4 flex flex-wrap gap-2 text-xs">
             <span class="px-3 py-1 rounded-full border border-white/10 bg-black/30">HVAC</span>
             <span class="px-3 py-1 rounded-full border border-white/10 bg-black/30">Plumbing</span>
             <span class="px-3 py-1 rounded-full border border-white/10 bg-black/30">DWG/PDF</span>
             <span class="px-3 py-1 rounded-full border border-white/10 bg-black/30">Revisions</span>
           </div>
-
           <div class="mt-6 flex gap-4 text-sm">
             <a class="link" href="#">View PDF</a>
             <a class="link" href="#">Details</a>
@@ -491,7 +597,53 @@
     });
   }, { threshold: 0.12 });
   reveals.forEach(el => observer.observe(el));
+
+  // Loading intro animation (progress + stages)
+  const loader = document.getElementById("loader");
+  const bar = document.getElementById("bar");
+  const pct = document.getElementById("pct");
+  const stage = document.getElementById("stage");
+
+  const steps = [
+    { p: 14, s: "BOOT" },
+    { p: 35, s: "GRID" },
+    { p: 58, s: "MODULES" },
+    { p: 78, s: "ASSETS" },
+    { p: 92, s: "VERIFY" },
+    { p: 100, s: "READY" },
+  ];
+
+  let i = 0;
+  let current = 0;
+
+  function tick(){
+    if (i >= steps.length) return;
+    const target = steps[i].p;
+    stage.textContent = steps[i].s;
+
+    const timer = setInterval(() => {
+      current += 2;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+        i++;
+        setTimeout(tick, 120);
+        if (current === 100) {
+          setTimeout(() => loader.classList.add("hide"), 250);
+        }
+      }
+      bar.style.width = current + "%";
+      pct.textContent = current + "%";
+    }, 18);
+  }
+
+  // Start once DOM is ready
+  window.addEventListener("DOMContentLoaded", () => {
+    setTimeout(tick, 180);
+  });
+
 </script>
 
 </body>
 </html>
+```
