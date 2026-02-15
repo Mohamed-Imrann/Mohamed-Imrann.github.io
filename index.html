@@ -1,83 +1,351 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohamed-Imran</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Portfolio</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-        /* Add this style to initially hide the contact section */
-        .contact-section {
-            display: none;
+  <!-- Tailwind config (Neon theme) -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          boxShadow: {
+            glow: "0 0 0 1px rgba(99,102,241,.25), 0 10px 35px rgba(99,102,241,.25)",
+          },
+          keyframes: {
+            floaty: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-8px)" } },
+            pulseGlow: { "0%,100%": { opacity: .5 }, "50%": { opacity: 1 } }
+          },
+          animation: {
+            floaty: "floaty 6s ease-in-out infinite",
+            pulseGlow: "pulseGlow 3.5s ease-in-out infinite",
+          }
         }
-    </style>
+      }
+    }
+  </script>
 
+  <style>
+    html { scroll-behavior: smooth; }
+    /* nice subtle noise */
+    .noise:before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");
+      pointer-events:none;
+      mix-blend-mode: overlay;
+      opacity:.35;
+    }
+  </style>
 </head>
-<body>
-    <div id="particles"></div>
 
-    <header>
-        <div class="container">
-            <ul class="header-logo">
-                <li><a href=""><h1>Mohamed-Imran</h1><img src="favicon.ico" alt="logo"></a></li>
-            </ul>
-            <nav class="nav-links">
-                <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contacts">Contacts</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body class="noise bg-zinc-950 text-zinc-100 selection:bg-indigo-500/30 selection:text-white">
+  <!-- Background Glow -->
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] animate-pulseGlow"></div>
+    <div class="absolute bottom-[-120px] left-[-120px] h-[420px] w-[420px] rounded-full bg-fuchsia-500/20 blur-[120px]"></div>
+    <div class="absolute top-[25%] right-[-160px] h-[520px] w-[520px] rounded-full bg-cyan-500/15 blur-[140px]"></div>
+  </div>
 
-    <section class="hero">
-        <div class="container">
-            <img src="assets/img/profile.jpg" alt="Abhisheks logo" class="prof-img">
-            <h1></h1>
-            <ul class="hero-links">
-                <li><a target="_blank" href="https://instagram.com/_imran_Kingdom_"><i class="fab fa-instagram"></i></a></li>
-                <li><a target="_blank" href="https://github.com/Mohamed-Imrann"><i class="fab fa-github"></i></a></li>
-                <li><a target="_blank" href="https://t.me/Joyboy_Nikkaman"><i class="fab fa-telegram"></i></a></li>
-            </ul>
+  <!-- Navbar -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/60 backdrop-blur">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <a href="#top" class="flex items-center gap-2">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 shadow-glow">
+          ⚡
+        </span>
+        <span class="font-semibold tracking-wide">YourName</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-6 text-sm text-zinc-300">
+        <a class="hover:text-white" href="#projects">Projects</a>
+        <a class="hover:text-white" href="#skills">Skills</a>
+        <a class="hover:text-white" href="#about">About</a>
+        <a class="hover:text-white" href="#contact">Contact</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/" target="_blank"
+           class="rounded-xl bg-white/5 px-3 py-2 text-sm ring-1 ring-white/10 hover:bg-white/10">
+          GitHub
+        </a>
+        <a href="#contact"
+           class="rounded-xl bg-indigo-500 px-3 py-2 text-sm font-medium hover:bg-indigo-400">
+          Hire me
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <main id="top" class="mx-auto max-w-6xl px-4">
+    <section class="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-zinc-300 ring-1 ring-white/10">
+          <span class="h-2 w-2 rounded-full bg-green-400"></span>
+          Available for freelance
+        </p>
+
+        <h1 class="mt-5 text-4xl font-bold leading-tight md:text-5xl">
+          I build <span class="text-indigo-400">fast</span> & <span class="text-fuchsia-400">modern</span>
+          websites that look premium.
+        </h1>
+
+        <p class="mt-4 text-zinc-300">
+          Short bio here. Mention what you do: web developer / designer / automation / bots.
+          Add 1 line about your main stack.
+        </p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="#projects" class="rounded-xl bg-white/5 px-4 py-3 text-sm ring-1 ring-white/10 hover:bg-white/10">
+            View Projects
+          </a>
+          <a href="#contact" class="rounded-xl bg-indigo-500 px-4 py-3 text-sm font-medium hover:bg-indigo-400">
+            Contact
+          </a>
+          <a href="resume.pdf" class="rounded-xl bg-zinc-900 px-4 py-3 text-sm ring-1 ring-white/10 hover:bg-zinc-800">
+            Download Resume
+          </a>
         </div>
+
+        <!-- quick stats -->
+        <div class="mt-10 grid grid-cols-3 gap-3">
+          <div class="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+            <p class="text-xs text-zinc-400">Experience</p>
+            <p class="mt-1 text-lg font-semibold">1+ yrs</p>
+          </div>
+          <div class="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+            <p class="text-xs text-zinc-400">Projects</p>
+            <p class="mt-1 text-lg font-semibold">15+</p>
+          </div>
+          <div class="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+            <p class="text-xs text-zinc-400">Clients</p>
+            <p class="mt-1 text-lg font-semibold">5+</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right card -->
+      <div class="relative">
+        <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-indigo-500/30 via-fuchsia-500/30 to-cyan-500/30 blur-2xl"></div>
+
+        <div class="relative rounded-3xl bg-zinc-900/60 p-6 ring-1 ring-white/10 shadow-glow">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="text-sm text-zinc-400">Featured</p>
+              <h3 class="mt-1 text-xl font-semibold">Telegram Automation Suite</h3>
+              <p class="mt-2 text-sm text-zinc-300">
+                Bots, upload automation, progress tracking, DB, admin panel.
+              </p>
+            </div>
+            <span class="rounded-xl bg-white/5 px-3 py-1 text-xs text-zinc-300 ring-1 ring-white/10 animate-floaty">
+              NEW
+            </span>
+          </div>
+
+          <div class="mt-6 grid gap-3">
+            <div class="rounded-2xl bg-black/30 p-4 ring-1 ring-white/10">
+              <p class="text-xs text-zinc-400">Stack</p>
+              <p class="mt-1 text-sm">Python • Node • MongoDB • Docker</p>
+            </div>
+            <div class="rounded-2xl bg-black/30 p-4 ring-1 ring-white/10">
+              <p class="text-xs text-zinc-400">What I deliver</p>
+              <p class="mt-1 text-sm">Speed • Clean UI • Automation • Reliability</p>
+            </div>
+          </div>
+
+          <div class="mt-6 flex gap-3">
+            <a href="#projects" class="w-full rounded-2xl bg-white/5 px-4 py-3 text-center text-sm ring-1 ring-white/10 hover:bg-white/10">
+              See case studies
+            </a>
+            <a href="#contact" class="w-full rounded-2xl bg-indigo-500 px-4 py-3 text-center text-sm font-medium hover:bg-indigo-400">
+              Let’s work
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="about" id="about">
-        <div class="container">
-            <h2>Hi, I am Mohamed Imran 👀</h2>
-            <h3>Welcome to My Personal Website.</h3>
-            <!-- ... Rest of the about section ... -->
-            <p>I'm from Tenkasi</p>
-            <p> B.E – Bachelor of Engineering in EEE
-SVCET , Anna University , 2025 .</p>
-            <p>I have a Passion for Coding of Python3 <br> I believe that with some More practiceI will be able to achieve those.</p>
-            <br><br>
-            <h2>Away from the Keyboard</h2>
-            <p>Apart from All that What I love the Most is to Watch HACKING Movies & Other Crazy Stuffs Like 🤖 </p>
-            <br>
-            <p class"astrophile-meaning"><small>*astrophile- a person who is deeply in love with stars.</small></p>
-            <!-- ... Rest of the about section ... -->
+    <!-- Projects -->
+    <section id="projects" class="py-14">
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold">Projects</h2>
+          <p class="mt-1 text-zinc-300">Pick your best 3–6 projects. Add links.</p>
         </div>
+      </div>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-3">
+        <!-- card -->
+        <article class="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10 hover:bg-white/10 transition">
+          <div class="flex items-center justify-between">
+            <p class="text-xs text-zinc-400">Automation</p>
+            <span class="text-xs rounded-full bg-indigo-500/20 px-2 py-1 text-indigo-200 ring-1 ring-indigo-500/30">Featured</span>
+          </div>
+          <h3 class="mt-3 text-lg font-semibold">Torrent → Drive Uploader</h3>
+          <p class="mt-2 text-sm text-zinc-300">Auto upload to Google Drive with progress, logs & retries.</p>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs text-zinc-300">
+            <span class="rounded-full bg-black/30 px-2 py-1 ring-1 ring-white/10">Python</span>
+            <span class="rounded-full bg-black/30 px-2 py-1 ring-1 ring-white/10">rclone</span>
+            <span class="rounded-full bg-black/30 px-2 py-1 ring-1 ring-white/10">Docker</span>
+          </div>
+          <div class="mt-5 flex gap-3">
+            <a class="text-sm text-indigo-300 hover:text-indigo-200" href="#">Live</a>
+            <a class="text-sm text-zinc-300 hover:text-white" href="#">Code</a>
+          </div>
+        </article>
+
+        <article class="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10 hover:bg-white/10 transition">
+          <p class="text-xs text-zinc-400">Web</p>
+          <h3 class="mt-3 text-lg font-semibold">Portfolio v2</h3>
+          <p class="mt-2 text-sm text-zinc-300">Modern UI portfolio with neon glow, bento sections.</p>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs text-zinc-300">
+            <span class="rounded-full bg-black/30 px-2 py-1 ring-1 ring-white/10">HTML</span>
+            <span class="rounded-full bg-black/30 px-2 py-1 ring-1 ring-white/10">Tailwind</span>
+          </div>
+          <div class="mt-5 flex gap-3">
+            <a class="text-sm text-indigo-300 hover:text-indigo-200" href="#">Live</a>
+            <a class="text-sm text-zinc-300 hover:text-white" href="#">Code</a>
+          </div>
+        </article>
+
+        <article class="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10 hover:bg-white/10 transition">
+          <p class="text-xs text-zinc-400">Bot</p>
+          <h3 class="mt-3 text-lg font-semibold">Media Request Bot</h3>
+          <p class="mt-2 text-sm text-zinc-300">Auto poster handling, DB, admin flows, request approvals.</p>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs text-zinc-300">
+            <span class="rounded-full bg-black/30 px-2 py-1 ring-1 ring-white/10">Pyrogram</span>
+            <span class="rounded-full bg-black/30 px-2 py-1 ring-1 ring-white/10">MongoDB</span>
+          </div>
+          <div class="mt-5 flex gap-3">
+            <a class="text-sm text-indigo-300 hover:text-indigo-200" href="#">Live</a>
+            <a class="text-sm text-zinc-300 hover:text-white" href="#">Code</a>
+          </div>
+        </article>
+      </div>
     </section>
 
-    
-    <!-- JavaScript -->
-    <script src="assets/js/particles.min.js"></script>
-    <script src="assets/js/part-conf.js"></script>
-    <script src="assets/js/writer.js"></script>
+    <!-- Skills -->
+    <section id="skills" class="py-14">
+      <h2 class="text-2xl font-bold">Skills</h2>
+      <p class="mt-1 text-zinc-300">Your main tools & strengths.</p>
 
-    <script>
-        // Function to toggle contact section visibility
-        function toggleContact() {
-            var contactSection = document.querySelector('.contact-section');
-            contactSection.style.display = (contactSection.style.display === 'none' || contactSection.style.display === '') ? 'block' : 'none';
-        }
-    </script>
+      <div class="mt-6 grid gap-5 md:grid-cols-3">
+        <div class="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10">
+          <h3 class="font-semibold">Frontend</h3>
+          <p class="mt-2 text-sm text-zinc-300">HTML • CSS • Tailwind • React</p>
+        </div>
+        <div class="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10">
+          <h3 class="font-semibold">Backend</h3>
+          <p class="mt-2 text-sm text-zinc-300">Python • Node • APIs • MongoDB</p>
+        </div>
+        <div class="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10">
+          <h3 class="font-semibold">DevOps</h3>
+          <p class="mt-2 text-sm text-zinc-300">Docker • VPS • Linux • GitHub</p>
+        </div>
+      </div>
+    </section>
 
+    <!-- About -->
+    <section id="about" class="py-14">
+      <h2 class="text-2xl font-bold">About</h2>
+      <div class="mt-6 grid gap-6 md:grid-cols-3">
+        <div class="md:col-span-2 rounded-3xl bg-white/5 p-6 ring-1 ring-white/10">
+          <p class="text-zinc-300 leading-relaxed">
+            Write 4–6 lines about you. What you build, what problems you solve, and what kind of work you want.
+            Keep it simple. Add your location and availability.
+          </p>
+        </div>
+        <div class="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10">
+          <p class="text-sm text-zinc-400">Quick info</p>
+          <ul class="mt-3 space-y-2 text-sm text-zinc-200">
+            <li>📍 India</li>
+            <li>💼 Freelance / Remote</li>
+            <li>⚡ Fast delivery</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-14 pb-20">
+      <h2 class="text-2xl font-bold">Contact</h2>
+      <p class="mt-1 text-zinc-300">Send a message — I’ll reply quickly.</p>
+
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <form class="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10"
+              action="https://formspree.io/f/yourFormId" method="POST">
+          <label class="block text-sm text-zinc-300">Name</label>
+          <input name="name" required
+                 class="mt-2 w-full rounded-2xl bg-black/30 px-4 py-3 text-sm ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                 placeholder="Your name" />
+
+          <label class="mt-4 block text-sm text-zinc-300">Email</label>
+          <input type="email" name="email" required
+                 class="mt-2 w-full rounded-2xl bg-black/30 px-4 py-3 text-sm ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                 placeholder="you@email.com" />
+
+          <label class="mt-4 block text-sm text-zinc-300">Message</label>
+          <textarea name="message" rows="5" required
+                    class="mt-2 w-full rounded-2xl bg-black/30 px-4 py-3 text-sm ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Tell me about your project..."></textarea>
+
+          <button type="submit"
+                  class="mt-5 w-full rounded-2xl bg-indigo-500 px-4 py-3 text-sm font-medium hover:bg-indigo-400">
+            Send Message
+          </button>
+
+          <p class="mt-3 text-xs text-zinc-400">
+            Tip: For working contact form, create Formspree form and replace <span class="text-zinc-200">yourFormId</span>.
+          </p>
+        </form>
+
+        <div class="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10">
+          <h3 class="text-lg font-semibold">Direct links</h3>
+          <p class="mt-2 text-sm text-zinc-300">Use these for quick contact.</p>
+
+          <div class="mt-5 space-y-3 text-sm">
+            <a class="block rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40"
+               href="mailto:you@email.com">📧 you@email.com</a>
+
+            <a class="block rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40"
+               href="https://github.com/" target="_blank">🐙 GitHub</a>
+
+            <a class="block rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40"
+               href="https://www.linkedin.com/" target="_blank">💼 LinkedIn</a>
+
+            <a class="block rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40"
+               href="https://t.me/" target="_blank">📩 Telegram</a>
+          </div>
+
+          <div class="mt-6 rounded-2xl bg-gradient-to-r from-indigo-500/20 via-fuchsia-500/20 to-cyan-500/20 p-4 ring-1 ring-white/10">
+            <p class="text-sm text-zinc-200">
+              <span class="font-semibold">What I can build:</span><br />
+              Portfolio • Landing pages • Automation bots • Upload systems • Dashboards
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-zinc-950/60">
+    <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-zinc-400 flex flex-col md:flex-row items-center justify-between gap-3">
+      <p>© <span id="year"></span> YourName. All rights reserved.</p>
+      <div class="flex gap-4">
+        <a class="hover:text-white" href="#top">Top</a>
+        <a class="hover:text-white" href="#projects">Projects</a>
+        <a class="hover:text-white" href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
