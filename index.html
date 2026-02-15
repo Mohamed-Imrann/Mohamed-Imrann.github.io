@@ -3,19 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name — Bento Portfolio</title>
+  <title>Your Name — Premium Portfolio</title>
+
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          boxShadow: { glow: "0 0 0 1px rgba(99,102,241,.28), 0 18px 45px rgba(99,102,241,.22)" },
-          keyframes: {
-            floaty: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-8px)" } },
-            shine: { "0%": { transform: "translateX(-120%)" }, "100%": { transform: "translateX(120%)" } },
+          boxShadow: {
+            soft: "0 10px 40px rgba(0,0,0,.35)",
+            glow: "0 0 0 1px rgba(99,102,241,.25), 0 18px 60px rgba(99,102,241,.22)"
           },
-          animation: { floaty: "floaty 7s ease-in-out infinite", shine: "shine 2.8s linear infinite" }
+          keyframes: {
+            floaty: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-10px)" } },
+            shimmer: { "0%": { transform: "translateX(-120%)" }, "100%": { transform: "translateX(120%)" } },
+            pop: { "0%": { transform: "translateY(18px)", opacity: 0 }, "100%": { transform: "translateY(0)", opacity: 1 } }
+          },
+          animation: {
+            floaty: "floaty 9s ease-in-out infinite",
+            shimmer: "shimmer 2.8s linear infinite",
+            pop: "pop .7s ease-out both"
+          }
         }
       }
     }
@@ -23,284 +33,329 @@
 
   <style>
     html { scroll-behavior: smooth; }
-    .noise:before{
+    /* Premium subtle grain */
+    .grain:before{
       content:""; position:fixed; inset:0; pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.13'/%3E%3C/svg%3E");
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
       mix-blend-mode: overlay; opacity:.35;
     }
+    /* Gradient border utility */
+    .g-border{
+      position:relative;
+      border-radius: 24px;
+    }
+    .g-border:before{
+      content:"";
+      position:absolute; inset:-1px;
+      border-radius: 26px;
+      background: linear-gradient(120deg,
+        rgba(99,102,241,.45),
+        rgba(217,70,239,.35),
+        rgba(34,211,238,.25));
+      filter: blur(.0px);
+      z-index:-1;
+      opacity:.65;
+    }
+    /* Reveal animation (JS adds .reveal-on) */
+    .reveal { opacity:0; transform: translateY(18px); }
+    .reveal.reveal-on { opacity:1; transform: translateY(0); transition: all .75s ease; }
   </style>
 </head>
 
-<body class="noise bg-zinc-950 text-zinc-100 selection:bg-indigo-500/30">
-  <!-- glow bg -->
-  <div class="fixed inset-0 -z-10">
-    <div class="absolute -top-44 left-1/2 h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-indigo-500/20 blur-[130px]"></div>
-    <div class="absolute top-[18%] right-[-180px] h-[640px] w-[640px] rounded-full bg-cyan-500/14 blur-[150px]"></div>
-    <div class="absolute bottom-[-180px] left-[-180px] h-[520px] w-[520px] rounded-full bg-fuchsia-500/16 blur-[150px]"></div>
+<body class="grain bg-zinc-950 text-zinc-100 selection:bg-indigo-500/30">
+  <!-- Aurora background -->
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-48 left-1/2 h-[650px] w-[650px] -translate-x-1/2 rounded-full bg-indigo-500/18 blur-[140px]"></div>
+    <div class="absolute top-[18%] right-[-240px] h-[720px] w-[720px] rounded-full bg-cyan-500/14 blur-[160px]"></div>
+    <div class="absolute bottom-[-260px] left-[-240px] h-[680px] w-[680px] rounded-full bg-fuchsia-500/14 blur-[170px]"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/30 via-zinc-950/70 to-zinc-950"></div>
   </div>
 
-  <!-- topbar -->
-  <header class="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/60 backdrop-blur">
+  <!-- Top bar -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/55 backdrop-blur">
     <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-2">
-        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 shadow-glow">⚡</span>
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 shadow-glow">✦</span>
         <span class="font-semibold tracking-wide">YourName</span>
       </a>
 
-      <div class="hidden md:flex items-center gap-6 text-sm text-zinc-300">
+      <nav class="hidden md:flex items-center gap-7 text-sm text-zinc-300">
         <a class="hover:text-white" href="#work">Work</a>
+        <a class="hover:text-white" href="#services">Services</a>
         <a class="hover:text-white" href="#stack">Stack</a>
-        <a class="hover:text-white" href="#proof">Proof</a>
         <a class="hover:text-white" href="#contact">Contact</a>
-      </div>
+      </nav>
 
-      <a href="#contact" class="rounded-xl bg-indigo-500 px-3 py-2 text-sm font-medium hover:bg-indigo-400">
-        Hire me
-      </a>
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/" target="_blank"
+           class="rounded-xl bg-white/5 px-3 py-2 text-sm ring-1 ring-white/10 hover:bg-white/10">
+          GitHub
+        </a>
+        <a href="#contact"
+           class="rounded-xl bg-indigo-500 px-3 py-2 text-sm font-medium hover:bg-indigo-400">
+          Hire me
+        </a>
+      </div>
     </div>
   </header>
 
-  <main id="top" class="mx-auto max-w-6xl px-4 py-10 md:py-14">
-    <div class="grid gap-6 md:grid-cols-[360px_1fr]">
-      <!-- LEFT sticky profile -->
-      <aside class="md:sticky md:top-20 h-fit rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 shadow-glow">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-xs text-zinc-400">Freelance Developer</p>
-            <h1 class="mt-1 text-2xl font-bold leading-tight">
-              Building <span class="text-indigo-400">fast</span> + <span class="text-fuchsia-400">premium</span> web experiences
-            </h1>
-          </div>
-          <span class="rounded-2xl bg-black/30 px-3 py-1 text-xs text-zinc-300 ring-1 ring-white/10 animate-floaty">
-            OPEN
-          </span>
-        </div>
-
-        <p class="mt-4 text-sm text-zinc-300 leading-relaxed">
-          One-line promise: “I create modern websites + automation systems that save time and look premium.”
+  <main id="top" class="mx-auto max-w-6xl px-4 py-12 md:py-16">
+    <!-- HERO -->
+    <section class="reveal grid gap-8 md:grid-cols-2 items-center">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-zinc-300 ring-1 ring-white/10">
+          <span class="h-2 w-2 rounded-full bg-green-400"></span>
+          Available • Remote / Freelance
         </p>
 
-        <div class="mt-5 grid grid-cols-3 gap-3">
-          <div class="rounded-2xl bg-black/30 p-3 ring-1 ring-white/10">
-            <p class="text-[11px] text-zinc-400">Projects</p>
-            <p class="mt-1 font-semibold">15+</p>
-          </div>
-          <div class="rounded-2xl bg-black/30 p-3 ring-1 ring-white/10">
-            <p class="text-[11px] text-zinc-400">Delivery</p>
-            <p class="mt-1 font-semibold">Fast</p>
-          </div>
-          <div class="rounded-2xl bg-black/30 p-3 ring-1 ring-white/10">
-            <p class="text-[11px] text-zinc-400">Location</p>
-            <p class="mt-1 font-semibold">India</p>
-          </div>
-        </div>
+        <h1 class="mt-5 text-4xl font-bold leading-tight md:text-5xl">
+          Premium <span class="text-indigo-400">websites</span> & <span class="text-fuchsia-400">automation</span>,
+          built fast.
+        </h1>
 
-        <div class="mt-5 flex flex-wrap gap-2 text-xs text-zinc-300">
-          <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Python</span>
-          <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Tailwind</span>
-          <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">MongoDB</span>
-          <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Docker</span>
-        </div>
+        <p class="mt-4 text-zinc-300 leading-relaxed">
+          Short bio: what you do + who you help + your main stack.
+          Example: “I build modern landing pages and Telegram automation systems that save time and look premium.”
+        </p>
 
-        <div class="mt-6 grid gap-3">
-          <a class="rounded-2xl bg-indigo-500 px-4 py-3 text-sm font-medium text-center hover:bg-indigo-400" href="#contact">
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="#work" class="rounded-2xl bg-white/5 px-5 py-3 text-sm ring-1 ring-white/10 hover:bg-white/10">
+            View Work
+          </a>
+          <a href="#contact" class="rounded-2xl bg-indigo-500 px-5 py-3 text-sm font-medium hover:bg-indigo-400">
             Contact
           </a>
-          <a class="rounded-2xl bg-white/5 px-4 py-3 text-sm text-center ring-1 ring-white/10 hover:bg-white/10" href="#work">
-            View work
-          </a>
-          <a class="rounded-2xl bg-zinc-900 px-4 py-3 text-sm text-center ring-1 ring-white/10 hover:bg-zinc-800" href="resume.pdf">
-            Download resume
+          <a href="resume.pdf" class="rounded-2xl bg-zinc-900 px-5 py-3 text-sm ring-1 ring-white/10 hover:bg-zinc-800">
+            Resume
           </a>
         </div>
 
-        <div class="mt-6 border-t border-white/10 pt-5 text-sm">
-          <a class="block rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40" href="mailto:you@email.com">
-            📧 you@email.com
-          </a>
-          <div class="mt-3 grid grid-cols-2 gap-3">
-            <a class="rounded-2xl bg-black/30 px-4 py-3 text-center ring-1 ring-white/10 hover:bg-black/40" target="_blank" href="https://github.com/">
-              GitHub
-            </a>
-            <a class="rounded-2xl bg-black/30 px-4 py-3 text-center ring-1 ring-white/10 hover:bg-black/40" target="_blank" href="https://t.me/">
-              Telegram
-            </a>
+        <div class="mt-10 grid grid-cols-3 gap-3">
+          <div class="rounded-3xl bg-white/5 p-4 ring-1 ring-white/10">
+            <p class="text-xs text-zinc-400">Delivery</p>
+            <p class="mt-1 text-lg font-semibold">Fast</p>
+          </div>
+          <div class="rounded-3xl bg-white/5 p-4 ring-1 ring-white/10">
+            <p class="text-xs text-zinc-400">Projects</p>
+            <p class="mt-1 text-lg font-semibold">15+</p>
+          </div>
+          <div class="rounded-3xl bg-white/5 p-4 ring-1 ring-white/10">
+            <p class="text-xs text-zinc-400">Focus</p>
+            <p class="mt-1 text-lg font-semibold">UI + Automation</p>
           </div>
         </div>
-      </aside>
+      </div>
 
-      <!-- RIGHT bento grid -->
-      <section class="space-y-6">
-        <!-- HERO bento -->
-        <div class="grid gap-6 md:grid-cols-3">
-          <div class="md:col-span-2 relative overflow-hidden rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
-            <div class="absolute inset-0 opacity-40">
-              <div class="absolute -top-24 -left-20 h-64 w-64 rounded-full bg-indigo-500/25 blur-[80px]"></div>
-              <div class="absolute -bottom-28 right-0 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-[90px]"></div>
+      <!-- Hero premium card -->
+      <div class="g-border reveal">
+        <div class="relative overflow-hidden rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 shadow-soft">
+          <div class="absolute inset-0 opacity-50">
+            <div class="absolute -top-24 -left-16 h-60 w-60 rounded-full bg-indigo-500/25 blur-[90px]"></div>
+            <div class="absolute -bottom-28 right-0 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-[100px]"></div>
+          </div>
+
+          <div class="relative">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-zinc-400">Featured</p>
+                <h3 class="mt-1 text-xl font-semibold">Telegram Upload Automation</h3>
+                <p class="mt-2 text-sm text-zinc-300">
+                  Upload pipeline with live progress, retries, logs, Drive link delivery.
+                </p>
+              </div>
+              <span class="rounded-2xl bg-black/30 px-3 py-1 text-xs text-zinc-300 ring-1 ring-white/10 animate-floaty">
+                PREMIUM
+              </span>
             </div>
 
-            <div class="relative">
-              <p class="text-xs text-zinc-400">Signature offer</p>
-              <h2 class="mt-2 text-xl font-semibold">
-                Premium portfolio / landing page in <span class="text-indigo-300">24–72 hours</span>
-              </h2>
-              <p class="mt-2 text-sm text-zinc-300">
-                Clean UI, mobile-first, SEO basics, fast loading, GitHub Pages deploy.
-              </p>
-
-              <div class="mt-5 flex flex-wrap gap-2 text-xs text-zinc-300">
-                <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Responsive</span>
-                <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Modern UI</span>
-                <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Fast load</span>
+            <div class="mt-6 grid gap-3">
+              <div class="rounded-2xl bg-black/30 p-4 ring-1 ring-white/10">
+                <p class="text-xs text-zinc-400">Stack</p>
+                <p class="mt-1 text-sm">Python • Docker • MongoDB • VPS</p>
+              </div>
+              <div class="rounded-2xl bg-black/30 p-4 ring-1 ring-white/10">
+                <p class="text-xs text-zinc-400">What you get</p>
+                <p class="mt-1 text-sm">Clean UI • Performance • Reliability</p>
               </div>
             </div>
 
-            <!-- moving shine -->
-            <div class="pointer-events-none absolute inset-0">
-              <div class="absolute top-0 left-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[120%] animate-shine"></div>
+            <div class="mt-6 flex gap-3">
+              <a href="#work" class="w-full rounded-2xl bg-white/5 px-4 py-3 text-center text-sm ring-1 ring-white/10 hover:bg-white/10">
+                Case studies
+              </a>
+              <a href="#contact" class="w-full rounded-2xl bg-indigo-500 px-4 py-3 text-center text-sm font-medium hover:bg-indigo-400">
+                Let’s talk
+              </a>
             </div>
           </div>
 
-          <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
-            <p class="text-xs text-zinc-400">Now building</p>
-            <h3 class="mt-2 text-lg font-semibold">Automation Systems</h3>
-            <p class="mt-2 text-sm text-zinc-300">Bots + upload pipelines + admin tools.</p>
-            <div class="mt-4 rounded-2xl bg-black/30 p-4 ring-1 ring-white/10">
-              <p class="text-xs text-zinc-400">Best at</p>
-              <p class="mt-1 text-sm">Telegram • VPS • Docker • DB</p>
-            </div>
+          <!-- shimmer line -->
+          <div class="pointer-events-none absolute inset-0">
+            <div class="absolute top-0 left-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[120%] animate-shimmer"></div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Work -->
-        <div id="work" class="grid gap-6 md:grid-cols-3">
-          <article class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 hover:bg-white/10 transition">
-            <p class="text-xs text-zinc-400">Case Study</p>
-            <h3 class="mt-2 font-semibold">Torrent → Drive Uploader</h3>
-            <p class="mt-2 text-sm text-zinc-300">Auto upload with progress + retries + logs.</p>
-            <div class="mt-4 flex gap-3 text-sm">
-              <a class="text-indigo-300 hover:text-indigo-200" href="#">Live</a>
-              <a class="text-zinc-300 hover:text-white" href="#">Code</a>
-            </div>
-          </article>
-
-          <article class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 hover:bg-white/10 transition">
-            <p class="text-xs text-zinc-400">Bot</p>
-            <h3 class="mt-2 font-semibold">Media Request Bot</h3>
-            <p class="mt-2 text-sm text-zinc-300">Poster flow + DB + admin approvals.</p>
-            <div class="mt-4 flex gap-3 text-sm">
-              <a class="text-indigo-300 hover:text-indigo-200" href="#">Live</a>
-              <a class="text-zinc-300 hover:text-white" href="#">Code</a>
-            </div>
-          </article>
-
-          <article class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 hover:bg-white/10 transition">
-            <p class="text-xs text-zinc-400">Web</p>
-            <h3 class="mt-2 font-semibold">Portfolio Bento UI</h3>
-            <p class="mt-2 text-sm text-zinc-300">Neon bento layout + sticky sidebar.</p>
-            <div class="mt-4 flex gap-3 text-sm">
-              <a class="text-indigo-300 hover:text-indigo-200" href="#">Live</a>
-              <a class="text-zinc-300 hover:text-white" href="#">Code</a>
-            </div>
-          </article>
+    <!-- WORK / BENTO -->
+    <section id="work" class="mt-14 reveal">
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold">Selected Work</h2>
+          <p class="mt-1 text-zinc-300">Top 3–6 projects மட்டும் வைங்க — that looks premium.</p>
         </div>
+      </div>
 
-        <!-- Stack -->
-        <div id="stack" class="grid gap-6 md:grid-cols-3">
-          <div class="md:col-span-2 rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
-            <h3 class="text-lg font-semibold">Tech stack</h3>
-            <p class="mt-2 text-sm text-zinc-300">Tools I use daily.</p>
+      <div class="mt-7 grid gap-6 md:grid-cols-3">
+        <!-- Big card -->
+        <article class="g-border md:col-span-2">
+          <div class="group relative overflow-hidden rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 shadow-soft transition hover:-translate-y-1 hover:bg-white/10">
+            <p class="text-xs text-zinc-400">Automation • Case Study</p>
+            <h3 class="mt-2 text-xl font-semibold">Torrent → Drive Uploader</h3>
+            <p class="mt-2 text-sm text-zinc-300 leading-relaxed">
+              Auto upload to Google Drive with progress, logs, retry logic, and final share link delivery.
+            </p>
+
             <div class="mt-4 flex flex-wrap gap-2 text-xs text-zinc-300">
               <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Python</span>
-              <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Pyrogram</span>
-              <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">MongoDB</span>
+              <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">rclone</span>
               <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Docker</span>
-              <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Linux VPS</span>
-              <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Tailwind</span>
             </div>
-          </div>
 
-          <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
-            <h3 class="text-lg font-semibold">Services</h3>
-            <ul class="mt-3 space-y-2 text-sm text-zinc-300">
-              <li>⚡ Portfolio / Landing pages</li>
-              <li>🤖 Telegram bots</li>
-              <li>🧩 Automation pipelines</li>
-              <li>🛠️ Deploy + VPS setup</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Proof -->
-        <div id="proof" class="grid gap-6 md:grid-cols-3">
-          <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
-            <p class="text-xs text-zinc-400">Result</p>
-            <h3 class="mt-2 font-semibold">Faster delivery</h3>
-            <p class="mt-2 text-sm text-zinc-300">Reusable components + clean systems.</p>
-          </div>
-
-          <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
-            <p class="text-xs text-zinc-400">Feedback</p>
-            <h3 class="mt-2 font-semibold">Client trust</h3>
-            <p class="mt-2 text-sm text-zinc-300">Clear updates, stable deploy, support.</p>
-          </div>
-
-          <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
-            <p class="text-xs text-zinc-400">Focus</p>
-            <h3 class="mt-2 font-semibold">Performance</h3>
-            <p class="mt-2 text-sm text-zinc-300">Optimized UI + fast loading.</p>
-          </div>
-        </div>
-
-        <!-- Contact -->
-        <div id="contact" class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
-          <h3 class="text-xl font-semibold">Contact</h3>
-          <p class="mt-2 text-sm text-zinc-300">Quick message form (Formspree optional).</p>
-
-          <div class="mt-5 grid gap-5 md:grid-cols-2">
-            <form action="https://formspree.io/f/yourFormId" method="POST" class="space-y-3">
-              <input name="name" required placeholder="Your name"
-                class="w-full rounded-2xl bg-black/30 px-4 py-3 text-sm ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              <input type="email" name="email" required placeholder="you@email.com"
-                class="w-full rounded-2xl bg-black/30 px-4 py-3 text-sm ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              <textarea name="message" rows="4" required placeholder="Tell me about your project..."
-                class="w-full rounded-2xl bg-black/30 px-4 py-3 text-sm ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-
-              <button type="submit"
-                class="w-full rounded-2xl bg-indigo-500 px-4 py-3 text-sm font-medium hover:bg-indigo-400">
-                Send
-              </button>
-              <p class="text-xs text-zinc-400">
-                Form working venumna Formspree create pannitu <span class="text-zinc-200">yourFormId</span> replace pannunga.
-              </p>
-            </form>
-
-            <div class="space-y-3">
-              <a class="block rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40" href="mailto:you@email.com">
-                📧 you@email.com
-              </a>
-              <a class="block rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40" target="_blank" href="https://github.com/">
-                🐙 GitHub
-              </a>
-              <a class="block rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40" target="_blank" href="https://www.linkedin.com/">
-                💼 LinkedIn
-              </a>
-              <a class="block rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40" target="_blank" href="https://t.me/">
-                📩 Telegram
-              </a>
+            <div class="mt-6 flex gap-3 text-sm">
+              <a class="text-indigo-300 hover:text-indigo-200" href="#">Live</a>
+              <a class="text-zinc-300 hover:text-white" href="#">Code</a>
             </div>
+
+            <div class="pointer-events-none absolute -right-24 -top-24 h-60 w-60 rounded-full bg-indigo-500/20 blur-[90px]"></div>
+          </div>
+        </article>
+
+        <!-- Small cards -->
+        <article class="group relative overflow-hidden rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 shadow-soft transition hover:-translate-y-1 hover:bg-white/10">
+          <p class="text-xs text-zinc-400">Bot</p>
+          <h3 class="mt-2 font-semibold">Media Request Bot</h3>
+          <p class="mt-2 text-sm text-zinc-300">Poster flow + DB + admin approvals.</p>
+          <div class="mt-4 flex gap-3 text-sm">
+            <a class="text-indigo-300 hover:text-indigo-200" href="#">Live</a>
+            <a class="text-zinc-300 hover:text-white" href="#">Code</a>
+          </div>
+          <div class="pointer-events-none absolute -left-24 -bottom-24 h-60 w-60 rounded-full bg-fuchsia-500/18 blur-[90px]"></div>
+        </article>
+
+        <article class="group relative overflow-hidden rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 shadow-soft transition hover:-translate-y-1 hover:bg-white/10">
+          <p class="text-xs text-zinc-400">Web</p>
+          <h3 class="mt-2 font-semibold">Premium Landing Page</h3>
+          <p class="mt-2 text-sm text-zinc-300">High conversion UI + fast load.</p>
+          <div class="mt-4 flex gap-3 text-sm">
+            <a class="text-indigo-300 hover:text-indigo-200" href="#">Live</a>
+            <a class="text-zinc-300 hover:text-white" href="#">Code</a>
+          </div>
+          <div class="pointer-events-none absolute -right-24 -bottom-24 h-60 w-60 rounded-full bg-cyan-500/14 blur-[90px]"></div>
+        </article>
+
+        <article class="group relative overflow-hidden rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 shadow-soft transition hover:-translate-y-1 hover:bg-white/10">
+          <p class="text-xs text-zinc-400">Tool</p>
+          <h3 class="mt-2 font-semibold">NameSwap Utility</h3>
+          <p class="mt-2 text-sm text-zinc-300">Bulk rename + zip + upload flow.</p>
+          <div class="mt-4 flex gap-3 text-sm">
+            <a class="text-indigo-300 hover:text-indigo-200" href="#">Live</a>
+            <a class="text-zinc-300 hover:text-white" href="#">Code</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="mt-14 reveal">
+      <h2 class="text-2xl font-bold">Services</h2>
+      <p class="mt-1 text-zinc-300">What I can build for you.</p>
+
+      <div class="mt-7 grid gap-6 md:grid-cols-3">
+        <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
+          <h3 class="font-semibold">Portfolio / Landing Pages</h3>
+          <p class="mt-2 text-sm text-zinc-300">Premium UI, mobile-first, fast load, GitHub Pages deploy.</p>
+        </div>
+        <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
+          <h3 class="font-semibold">Telegram Bots</h3>
+          <p class="mt-2 text-sm text-zinc-300">Admin flows, DB, automation, reliability.</p>
+        </div>
+        <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
+          <h3 class="font-semibold">Automation Systems</h3>
+          <p class="mt-2 text-sm text-zinc-300">Upload pipelines, progress tracking, retry logic, logging.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section id="stack" class="mt-14 reveal">
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="md:col-span-2 rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
+          <h2 class="text-2xl font-bold">Stack</h2>
+          <p class="mt-1 text-zinc-300">Tools I use daily.</p>
+          <div class="mt-5 flex flex-wrap gap-2 text-xs text-zinc-300">
+            <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Python</span>
+            <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Pyrogram</span>
+            <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">MongoDB</span>
+            <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Docker</span>
+            <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Linux VPS</span>
+            <span class="rounded-full bg-black/30 px-3 py-1 ring-1 ring-white/10">Tailwind</span>
           </div>
         </div>
 
-        <footer class="text-center text-xs text-zinc-500 pb-6">
-          © <span id="year"></span> YourName — Bento Portfolio
-        </footer>
-      </section>
-    </div>
+        <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6">
+          <h3 class="text-lg font-semibold">Quick info</h3>
+          <ul class="mt-3 space-y-2 text-sm text-zinc-300">
+            <li>📍 India</li>
+            <li>⚡ Fast delivery</li>
+            <li>💼 Freelance / Remote</li>
+            <li>✅ Clean & reliable builds</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="mt-14 reveal">
+      <div class="g-border">
+        <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 p-6 md:p-8 shadow-soft">
+          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+            <div>
+              <h2 class="text-2xl font-bold">Let’s build something premium.</h2>
+              <p class="mt-1 text-zinc-300">Quick contact links below.</p>
+            </div>
+            <a class="rounded-2xl bg-indigo-500 px-5 py-3 text-sm font-medium hover:bg-indigo-400" href="mailto:you@email.com">
+              Email me
+            </a>
+          </div>
+
+          <div class="mt-7 grid gap-4 md:grid-cols-4 text-sm">
+            <a class="rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40" href="mailto:you@email.com">📧 you@email.com</a>
+            <a class="rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40" target="_blank" href="https://github.com/">🐙 GitHub</a>
+            <a class="rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40" target="_blank" href="https://www.linkedin.com/">💼 LinkedIn</a>
+            <a class="rounded-2xl bg-black/30 px-4 py-3 ring-1 ring-white/10 hover:bg-black/40" target="_blank" href="https://t.me/">📩 Telegram</a>
+          </div>
+
+          <p class="mt-6 text-xs text-zinc-500">
+            © <span id="year"></span> YourName • Built on GitHub Pages
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script>
+    // year
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // reveal on scroll
+    const els = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add("reveal-on");
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
   </script>
 </body>
 </html>
