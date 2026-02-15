@@ -1,390 +1,233 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MEP Draftman — Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEP Draftman Portfolio</title>
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          boxShadow: {
-            soft: "0 14px 60px rgba(0,0,0,.45)",
-          }
-        }
-      }
-    }
-  </script>
+<style>
+html { scroll-behavior: smooth; }
 
-  <style>
-    html { scroll-behavior: smooth; }
+/* Deep black base */
+body {
+  background: #000000;
+  color: #ffffff;
+}
 
-    /* Blueprint background (technical, not foggy) */
-    .blueprint {
-      background:
-        radial-gradient(circle at 18% 18%, rgba(34,211,238,.18), transparent 38%),
-        radial-gradient(circle at 80% 22%, rgba(99,102,241,.14), transparent 38%),
-        radial-gradient(circle at 25% 85%, rgba(217,70,239,.10), transparent 40%),
-        linear-gradient(to bottom, rgba(9,9,11,.15), rgba(9,9,11,.92)),
-        repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0 1px, transparent 1px 32px),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 32px);
-    }
+/* Subtle blueprint grid overlay */
+.overlay-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 0;
+}
 
-    /* subtle grain */
-    .grain:before{
-      content:""; position:fixed; inset:0; pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.10'/%3E%3C/svg%3E");
-      mix-blend-mode: overlay; opacity:.35;
-    }
+/* Soft radial glow */
+.overlay-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,255,255,0.15), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(100,100,255,0.15), transparent 40%),
+    radial-gradient(circle at 50% 90%, rgba(255,0,255,0.08), transparent 50%);
+  z-index: 0;
+}
 
-    /* reveal animation */
-    .reveal { opacity:0; transform: translateY(14px); }
-    .reveal.on { opacity:1; transform: translateY(0); transition: all .75s ease; }
-  </style>
+/* Glass card */
+.glass {
+  background: rgba(20,20,20,0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Hover lift */
+.card-hover {
+  transition: all .3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* Reveal animation */
+.reveal { opacity: 0; transform: translateY(15px); }
+.reveal.show { opacity: 1; transform: translateY(0); transition: all .8s ease; }
+
+</style>
 </head>
 
-<body class="blueprint grain min-h-screen text-zinc-100 selection:bg-cyan-500/25">
-  <!-- Top Bar -->
-  <header class="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur">
-    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-      <a href="#top" class="flex items-center gap-2">
-        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10">
-          ⌁
-        </span>
-        <span class="font-semibold tracking-wide">YOUR_NAME</span>
-        <span class="hidden sm:inline text-xs text-zinc-500">MEP Draftman</span>
+<body>
+
+<div class="overlay-grid"></div>
+<div class="overlay-glow"></div>
+
+<header class="sticky top-0 z-50 bg-black/70 backdrop-blur border-b border-white/10">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+    <h1 class="font-semibold tracking-wide">YOUR NAME — MEP Draftman</h1>
+    <a href="#contact" class="bg-cyan-500 text-black px-4 py-2 rounded-lg text-sm font-semibold hover:bg-cyan-400">
+      Get Quote
+    </a>
+  </div>
+</header>
+
+<main class="relative z-10 max-w-6xl mx-auto px-4 py-16">
+
+<!-- HERO -->
+<section class="grid md:grid-cols-2 gap-12 items-center reveal">
+  <div>
+    <p class="text-cyan-400 text-sm uppercase tracking-wide">
+      Dubai / GCC Projects • Remote
+    </p>
+
+    <h2 class="mt-6 text-5xl font-extrabold leading-tight">
+      MEP Draftman for<br>
+      <span class="text-cyan-400">HVAC</span>,
+      <span class="text-indigo-400">Plumbing</span> &
+      <span class="text-fuchsia-400">Firefighting</span>
+    </h2>
+
+    <p class="mt-6 text-gray-400 text-lg max-w-xl">
+      Accurate shop drawings, coordinated layouts, risers and BOQ-ready outputs.
+      Clean layers. GCC standards. Professional delivery.
+    </p>
+
+    <div class="mt-8 flex gap-4">
+      <a href="#projects" class="border border-white/20 px-6 py-3 rounded-lg hover:border-white">
+        View Work
       </a>
-
-      <nav class="hidden md:flex items-center gap-7 text-sm text-zinc-300">
-        <a class="hover:text-white" href="#services">Services</a>
-        <a class="hover:text-white" href="#projects">Projects</a>
-        <a class="hover:text-white" href="#tools">Tools</a>
-        <a class="hover:text-white" href="#process">Process</a>
-        <a class="hover:text-white" href="#contact">Contact</a>
-      </nav>
-
-      <a href="#contact" class="rounded-xl bg-cyan-500 px-3 py-2 text-sm font-semibold text-zinc-950 hover:bg-cyan-400">
-        Get Quote
+      <a href="#contact" class="bg-cyan-500 text-black px-6 py-3 rounded-lg font-semibold hover:bg-cyan-400">
+        Contact
       </a>
     </div>
-  </header>
+  </div>
 
-  <main id="top" class="mx-auto max-w-6xl px-4 py-12 md:py-16">
+  <div class="glass p-8 rounded-2xl shadow-2xl">
+    <p class="text-gray-400 text-sm uppercase">Signature Workflow</p>
+    <h3 class="mt-3 text-2xl font-bold">
+      MEP Coordination + Shop Drawings
+    </h3>
+    <p class="mt-3 text-gray-400 text-sm">
+      Plan • Riser • Sections • Details • Schedules • Revisions
+    </p>
 
-    <!-- HERO -->
-    <section class="grid gap-10 md:grid-cols-2 items-center py-8 reveal">
-      <!-- LEFT -->
-      <div>
-        <p class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-cyan-300 ring-1 ring-white/10">
-          <span class="h-2 w-2 rounded-full bg-green-400"></span>
-          Available for Dubai / GCC projects • Remote
-        </p>
-
-        <h1 class="mt-6 text-4xl md:text-5xl font-extrabold leading-tight text-white">
-          MEP Draftman for
-          <span class="block text-cyan-400">HVAC</span>
-          <span class="block text-indigo-400">Plumbing</span>
-          <span class="block text-fuchsia-400">& Firefighting</span>
-        </h1>
-
-        <p class="mt-6 text-zinc-400 text-lg leading-relaxed max-w-xl">
-          Accurate shop drawings, coordinated layouts, risers and BOQ-ready outputs.
-          Clean layers, GCC-ready standards, and revision control.
-        </p>
-
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href="#projects" class="px-6 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-sm">
-            View Work
-          </a>
-
-          <a href="#contact" class="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-semibold text-sm">
-            Contact
-          </a>
-
-          <a href="resume.pdf" class="px-6 py-3 rounded-xl bg-black border border-zinc-800 hover:border-zinc-600 text-sm">
-            Download CV
-          </a>
-        </div>
-
-        <!-- Stats -->
-        <div class="mt-10 grid grid-cols-3 gap-4 max-w-lg">
-          <div class="bg-zinc-950/55 p-4 rounded-xl border border-zinc-800">
-            <p class="text-xs text-zinc-500">Coordination</p>
-            <p class="mt-1 font-semibold text-white">Clash-aware</p>
-          </div>
-          <div class="bg-zinc-950/55 p-4 rounded-xl border border-zinc-800">
-            <p class="text-xs text-zinc-500">Standards</p>
-            <p class="mt-1 font-semibold text-white">GCC Ready</p>
-          </div>
-          <div class="bg-zinc-950/55 p-4 rounded-xl border border-zinc-800">
-            <p class="text-xs text-zinc-500">Output</p>
-            <p class="mt-1 font-semibold text-white">DWG / PDF</p>
-          </div>
-        </div>
+    <div class="mt-6 space-y-4">
+      <div class="bg-black/40 p-4 rounded-lg border border-white/10">
+        <p class="text-xs text-gray-500">Deliverables</p>
+        <p class="mt-1 text-sm">DWG / PDF</p>
       </div>
 
-      <!-- RIGHT CARD -->
-      <div class="bg-zinc-950/70 border border-zinc-800 rounded-2xl p-8 shadow-soft">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-xs text-zinc-500 uppercase tracking-wide">Signature Workflow</p>
-            <h3 class="mt-3 text-2xl font-bold text-white">MEP Coordination + Shop Drawings</h3>
-            <p class="mt-3 text-zinc-400 text-sm">
-              Layer standards • Legends • Sections • Schedules • RFI-ready drawings
-            </p>
-          </div>
-          <span class="rounded-full bg-zinc-800/70 px-3 py-1 text-xs text-zinc-200 border border-zinc-700">
-            PREMIUM
-          </span>
-        </div>
-
-        <div class="mt-6 space-y-4">
-          <div class="bg-black/40 p-4 rounded-xl border border-zinc-800">
-            <p class="text-xs text-zinc-500">Deliverables</p>
-            <p class="mt-1 text-white text-sm">Plan • Riser • Sections • Details • Schedules</p>
-          </div>
-
-          <div class="bg-black/40 p-4 rounded-xl border border-zinc-800">
-            <p class="text-xs text-zinc-500">Best For</p>
-            <p class="mt-1 text-white text-sm">Villas • Buildings • Commercial • Fit-out</p>
-          </div>
-        </div>
-
-        <div class="mt-6 flex gap-4">
-          <a href="#services" class="flex-1 text-center px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-sm">
-            Services
-          </a>
-          <a href="#contact" class="flex-1 text-center px-4 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-semibold text-sm">
-            Get Quote
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section id="services" class="mt-14 reveal">
-      <h2 class="text-2xl font-bold text-white">Services</h2>
-      <p class="mt-2 text-zinc-400">MEP drafting deliverables for site execution.</p>
-
-      <div class="mt-7 grid gap-6 md:grid-cols-3">
-        <div class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6 hover:border-zinc-600 transition">
-          <h3 class="font-semibold text-white">HVAC Drawings</h3>
-          <p class="mt-2 text-sm text-zinc-400">Duct layout, diffusers, equipment, sections, schedules.</p>
-          <p class="mt-4 text-xs text-zinc-500">Output: DWG / PDF</p>
-        </div>
-
-        <div class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6 hover:border-zinc-600 transition">
-          <h3 class="font-semibold text-white">Plumbing & Drainage</h3>
-          <p class="mt-2 text-sm text-zinc-400">Water supply, drainage, riser, isometrics, legends.</p>
-          <p class="mt-4 text-xs text-zinc-500">Output: DWG / PDF</p>
-        </div>
-
-        <div class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6 hover:border-zinc-600 transition">
-          <h3 class="font-semibold text-white">Firefighting</h3>
-          <p class="mt-2 text-sm text-zinc-400">Sprinkler layout, hydrant, piping, details & schedules.</p>
-          <p class="mt-4 text-xs text-zinc-500">Output: DWG / PDF</p>
-        </div>
-      </div>
-
-      <div class="mt-6 rounded-2xl bg-black/30 border border-zinc-800 p-6">
-        <p class="text-sm text-zinc-300">
-          <span class="text-white font-semibold">Coordination:</span>
-          I work with architectural/structural drawings and provide coordinated MEP layouts with clean layers, legends, and revision control.
-        </p>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section id="projects" class="mt-14 reveal">
-      <div class="flex items-end justify-between gap-4">
-        <div>
-          <h2 class="text-2xl font-bold text-white">Projects</h2>
-          <p class="mt-2 text-zinc-400">Add 3–6 real projects. Use PDF previews for trust.</p>
-        </div>
-      </div>
-
-      <div class="mt-7 grid gap-6 md:grid-cols-3">
-        <!-- big -->
-        <article class="md:col-span-2 rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6 hover:border-zinc-600 transition">
-          <p class="text-xs text-zinc-500">Commercial • Coordination</p>
-          <h3 class="mt-2 text-xl font-semibold text-white">MEP Shop Drawings — Building Project</h3>
-          <p class="mt-2 text-sm text-zinc-400 leading-relaxed">
-            Coordinated HVAC + Plumbing layouts with legends, sections, schedules and revision control for site execution.
-          </p>
-
-          <div class="mt-4 flex flex-wrap gap-2 text-xs text-zinc-300">
-            <span class="rounded-full bg-black/40 px-3 py-1 border border-zinc-800">HVAC</span>
-            <span class="rounded-full bg-black/40 px-3 py-1 border border-zinc-800">Plumbing</span>
-            <span class="rounded-full bg-black/40 px-3 py-1 border border-zinc-800">DWG/PDF</span>
-          </div>
-
-          <div class="mt-6 flex gap-3 text-sm">
-            <a class="text-cyan-300 hover:text-cyan-200" href="#">View PDF</a>
-            <a class="text-zinc-300 hover:text-white" href="#">Details</a>
-          </div>
-        </article>
-
-        <article class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6 hover:border-zinc-600 transition">
-          <p class="text-xs text-zinc-500">Villa</p>
-          <h3 class="mt-2 font-semibold text-white">Plumbing + Riser</h3>
-          <p class="mt-2 text-sm text-zinc-400">Water supply, drainage, and riser diagrams.</p>
-          <div class="mt-5 flex gap-3 text-sm">
-            <a class="text-cyan-300 hover:text-cyan-200" href="#">View PDF</a>
-            <a class="text-zinc-300 hover:text-white" href="#">Details</a>
-          </div>
-        </article>
-
-        <article class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6 hover:border-zinc-600 transition">
-          <p class="text-xs text-zinc-500">Firefighting</p>
-          <h3 class="mt-2 font-semibold text-white">Sprinkler Layout</h3>
-          <p class="mt-2 text-sm text-zinc-400">Coverage-based layout + schedules.</p>
-          <div class="mt-5 flex gap-3 text-sm">
-            <a class="text-cyan-300 hover:text-cyan-200" href="#">View PDF</a>
-            <a class="text-zinc-300 hover:text-white" href="#">Details</a>
-          </div>
-        </article>
-
-        <article class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6 hover:border-zinc-600 transition">
-          <p class="text-xs text-zinc-500">HVAC</p>
-          <h3 class="mt-2 font-semibold text-white">Duct Layout + Sections</h3>
-          <p class="mt-2 text-sm text-zinc-400">Duct routing, diffusers, and details.</p>
-          <div class="mt-5 flex gap-3 text-sm">
-            <a class="text-cyan-300 hover:text-cyan-200" href="#">View PDF</a>
-            <a class="text-zinc-300 hover:text-white" href="#">Details</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- TOOLS -->
-    <section id="tools" class="mt-14 reveal">
-      <div class="grid gap-6 md:grid-cols-3">
-        <div class="md:col-span-2 rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6">
-          <h2 class="text-2xl font-bold text-white">Tools & Standards</h2>
-          <p class="mt-2 text-zinc-400">Software + drafting practices.</p>
-
-          <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-xl bg-black/35 border border-zinc-800 p-4">
-              <p class="text-xs text-zinc-500">Software</p>
-              <p class="mt-1 text-sm text-zinc-200">AutoCAD • Revit (optional) • Navisworks (optional)</p>
-            </div>
-            <div class="rounded-xl bg-black/35 border border-zinc-800 p-4">
-              <p class="text-xs text-zinc-500">Outputs</p>
-              <p class="mt-1 text-sm text-zinc-200">DWG • PDF • Plot-ready sheets</p>
-            </div>
-            <div class="rounded-xl bg-black/35 border border-zinc-800 p-4">
-              <p class="text-xs text-zinc-500">Drafting</p>
-              <p class="mt-1 text-sm text-zinc-200">Layers • Legends • Title blocks • Revisions</p>
-            </div>
-            <div class="rounded-xl bg-black/35 border border-zinc-800 p-4">
-              <p class="text-xs text-zinc-500">Coordination</p>
-              <p class="mt-1 text-sm text-zinc-200">Clearances • Site-ready layouts • Standards</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6">
-          <h3 class="text-lg font-semibold text-white">Quick Info</h3>
-          <ul class="mt-4 space-y-2 text-sm text-zinc-300">
-            <li>📍 India</li>
-            <li>🌍 Dubai / GCC projects</li>
-            <li>🕒 Remote drafting</li>
-            <li>✅ Clean deliverables</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROCESS -->
-    <section id="process" class="mt-14 reveal">
-      <h2 class="text-2xl font-bold text-white">Process</h2>
-      <p class="mt-2 text-zinc-400">Simple workflow clients understand.</p>
-
-      <div class="mt-7 grid gap-6 md:grid-cols-4">
-        <div class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6">
-          <p class="text-xs text-zinc-500">01</p>
-          <h3 class="mt-2 font-semibold text-white">Inputs</h3>
-          <p class="mt-2 text-sm text-zinc-400">Arch/Str drawings + requirements + standards.</p>
-        </div>
-        <div class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6">
-          <p class="text-xs text-zinc-500">02</p>
-          <h3 class="mt-2 font-semibold text-white">Draft</h3>
-          <p class="mt-2 text-sm text-zinc-400">Layout, risers, sections, and details.</p>
-        </div>
-        <div class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6">
-          <p class="text-xs text-zinc-500">03</p>
-          <h3 class="mt-2 font-semibold text-white">Coordination</h3>
-          <p class="mt-2 text-sm text-zinc-400">Check clearances + revisions + notes.</p>
-        </div>
-        <div class="rounded-2xl bg-zinc-950/60 border border-zinc-800 p-6">
-          <p class="text-xs text-zinc-500">04</p>
-          <h3 class="mt-2 font-semibold text-white">Deliver</h3>
-          <p class="mt-2 text-sm text-zinc-400">DWG/PDF sheets ready for site execution.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="mt-14 reveal">
-      <div class="rounded-2xl bg-zinc-950/70 border border-zinc-800 p-8 shadow-soft">
-        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <div>
-            <h2 class="text-2xl font-bold text-white">Contact</h2>
-            <p class="mt-2 text-zinc-400">Send your project details — I’ll reply quickly.</p>
-          </div>
-          <a class="rounded-xl bg-cyan-500 px-5 py-3 text-sm font-semibold text-zinc-950 hover:bg-cyan-400"
-             href="mailto:you@email.com">
-            Email me
-          </a>
-        </div>
-
-        <div class="mt-7 grid gap-4 md:grid-cols-4 text-sm">
-          <a class="rounded-xl bg-black/35 px-4 py-3 border border-zinc-800 hover:border-zinc-600"
-             href="mailto:you@email.com">📧 you@email.com</a>
-
-          <a class="rounded-xl bg-black/35 px-4 py-3 border border-zinc-800 hover:border-zinc-600"
-             target="_blank" href="https://www.linkedin.com/">💼 LinkedIn</a>
-
-          <a class="rounded-xl bg-black/35 px-4 py-3 border border-zinc-800 hover:border-zinc-600"
-             target="_blank" href="https://t.me/">📩 Telegram</a>
-
-          <a class="rounded-xl bg-black/35 px-4 py-3 border border-zinc-800 hover:border-zinc-600"
-             href="resume.pdf">⬇️ CV</a>
-        </div>
-
-        <p class="mt-6 text-xs text-zinc-500">
-          © <span id="year"></span> YOUR_NAME • MEP Draftman Portfolio • GitHub Pages
-        </p>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="border-t border-white/10 bg-zinc-950/60">
-    <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-zinc-500 flex flex-col md:flex-row items-center justify-between gap-3">
-      <p>Built with a technical blueprint style • DWG/PDF focused • Clean delivery</p>
-      <div class="flex gap-4">
-        <a class="hover:text-white" href="#top">Top</a>
-        <a class="hover:text-white" href="#projects">Projects</a>
-        <a class="hover:text-white" href="#contact">Contact</a>
+      <div class="bg-black/40 p-4 rounded-lg border border-white/10">
+        <p class="text-xs text-gray-500">Best For</p>
+        <p class="mt-1 text-sm">Villas • Commercial • Buildings</p>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    // year
-    document.getElementById("year").textContent = new Date().getFullYear();
+<!-- SERVICES -->
+<section id="services" class="mt-24 reveal">
+  <h2 class="text-3xl font-bold">Services</h2>
 
-    // reveal on scroll
-    const els = document.querySelectorAll(".reveal");
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("on"); });
-    }, { threshold: 0.12 });
-    els.forEach(el => io.observe(el));
-  </script>
+  <div class="grid md:grid-cols-3 gap-8 mt-10">
+    <div class="glass p-6 rounded-xl card-hover">
+      <h3 class="font-semibold">HVAC Drawings</h3>
+      <p class="mt-2 text-gray-400 text-sm">
+        Duct layouts, sections, schedules and coordination.
+      </p>
+    </div>
+
+    <div class="glass p-6 rounded-xl card-hover">
+      <h3 class="font-semibold">Plumbing & Drainage</h3>
+      <p class="mt-2 text-gray-400 text-sm">
+        Water supply, drainage, riser diagrams.
+      </p>
+    </div>
+
+    <div class="glass p-6 rounded-xl card-hover">
+      <h3 class="font-semibold">Firefighting</h3>
+      <p class="mt-2 text-gray-400 text-sm">
+        Sprinkler layout, hydrant, piping details.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="mt-24 reveal">
+  <h2 class="text-3xl font-bold">Projects</h2>
+
+  <div class="grid md:grid-cols-3 gap-8 mt-10">
+    <div class="glass p-6 rounded-xl card-hover">
+      <h3 class="font-semibold">Commercial MEP Layout</h3>
+      <p class="mt-2 text-gray-400 text-sm">
+        Coordinated HVAC + Plumbing drawing set.
+      </p>
+    </div>
+
+    <div class="glass p-6 rounded-xl card-hover">
+      <h3 class="font-semibold">Villa Plumbing System</h3>
+      <p class="mt-2 text-gray-400 text-sm">
+        Water supply + drainage layout.
+      </p>
+    </div>
+
+    <div class="glass p-6 rounded-xl card-hover">
+      <h3 class="font-semibold">Firefighting Design</h3>
+      <p class="mt-2 text-gray-400 text-sm">
+        Sprinkler coverage + schedules.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="mt-24 reveal">
+  <div class="glass p-10 rounded-2xl">
+    <h2 class="text-3xl font-bold">Contact</h2>
+    <p class="mt-3 text-gray-400">
+      Send your project details. I will respond quickly.
+    </p>
+
+    <div class="mt-6 flex gap-6 text-sm">
+      <a href="mailto:you@email.com" class="hover:text-cyan-400">
+        📧 you@email.com
+      </a>
+      <a href="#" class="hover:text-cyan-400">
+        💼 LinkedIn
+      </a>
+      <a href="#" class="hover:text-cyan-400">
+        📩 Telegram
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="text-center py-8 text-gray-500 text-sm border-t border-white/10 mt-20">
+  © <span id="year"></span> YOUR NAME — MEP Draftman
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const reveals = document.querySelectorAll(".reveal");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
+    }
+  });
+});
+reveals.forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
